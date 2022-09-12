@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="32347cfc9ded405dae29b9155c12f1d1" Name="Diagram1">
+        <EntityTypeShape EntityType="BreweryManagementModel.Beer" Width="1.5" PointX="5.375" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BreweryManagementModel.Brewer" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BreweryManagementModel.Brewery" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="BreweryManagementModel.FK_Beer_Brewer" ManuallyRouted="false" />
+        <AssociationConnector Association="BreweryManagementModel.FK_Beer_Brewer1" ManuallyRouted="false" />
+        <AssociationConnector Association="BreweryManagementModel.FK_Beer_Brewery" ManuallyRouted="false" />
+        <AssociationConnector Association="BreweryManagementModel.FK_Brewery_Brewer" ManuallyRouted="false" />
+        <AssociationConnector Association="BreweryManagementModel.FK_Brewery_Brewer1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
