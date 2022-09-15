@@ -251,9 +251,31 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\AuditService.cs" />
+    <Compile Include="Implementation\BeerBussinessService.cs" />
+    <Compile Include="Implementation\BeerService.cs" />
+    <Compile Include="Implementation\BrewerBussinessService.cs" />
     <Compile Include="Implementation\BrewerService.cs" />
+    <Compile Include="Implementation\BreweryBussinessService.cs" />
+    <Compile Include="Implementation\BreweryService.cs" />
+    <Compile Include="Implementation\SaleService.cs" />
+    <Compile Include="Implementation\WholeSalerBussinessService.cs" />
+    <Compile Include="Implementation\WholeSalerService.cs" />
+    <Compile Include="Interfaces\IAuditService.cs" />
+    <Compile Include="Interfaces\IBeerBussinessService.cs" />
+    <Compile Include="Interfaces\IBeerService.cs" />
+    <Compile Include="Interfaces\IBrewerBussinessService.cs" />
     <Compile Include="Interfaces\IBrewerService.cs" />
+    <Compile Include="Interfaces\IBreweryBussinessService.cs" />
+    <Compile Include="Interfaces\IBreweryService.cs" />
+    <Compile Include="Interfaces\ISaleBussinessService.cs" />
+    <Compile Include="Interfaces\ISaleService.cs" />
+    <Compile Include="Interfaces\IWholeSalerBussinessService.cs" />
+    <Compile Include="Interfaces\IWholeSalerService.cs" />
+    <Compile Include="Mapper\BeerProfile.cs" />
     <Compile Include="Mapper\BrewerProfile.cs" />
+    <Compile Include="Mapper\BreweryProfile.cs" />
+    <Compile Include="Mapper\WholeSalerProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
