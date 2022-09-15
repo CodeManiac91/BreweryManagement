@@ -9,24 +9,25 @@ using System.Threading.Tasks;
 
 namespace Services.Mapper
 {
-    public class BrewerProfile : Profile
+    public class BreweryProfile : Profile
     {
-        public BrewerProfile() {
-            CreateMap<BrewerDto, Brewer>()
+        public BreweryProfile()
+        {
+            CreateMap<BreweryDto, Brewery>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.Name}")
                 )
-                .ForMember(dest => dest.IndentificationNumber, opt => opt.MapFrom(src => $"{src.IdentificationNumber}")
+                .ForMember(dest => dest.SourceId,opt => opt.MapFrom(src => $"{src.SourceId}")
                 )
                 .ForMember(dest => dest.Removed, opt => opt.MapFrom(src => src.Removed)
                 );
 
-            CreateMap<Brewer, BrewerDto>()
+            CreateMap<Brewery, BreweryDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.Name}")
                 )
-                .ForMember(dest => dest.IdentificationNumber, opt => opt.MapFrom(src => $"{src.IndentificationNumber}")
+                .ForMember(dest => dest.SourceId, opt => opt.MapFrom(src => $"{src.SourceId}")
                 )
                 .ForMember(dest => dest.Removed, opt => opt.MapFrom(src => src.Removed)
-                );
+                ); 
         }
     }
 }

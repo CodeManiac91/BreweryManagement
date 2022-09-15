@@ -17,7 +17,7 @@ namespace DataAccess
     public partial class BreweryManagementEntities : DbContext
     {
         public BreweryManagementEntities(IConfiguration configuration)
-            : base(configuration.GetConnectionString("BreweryManagementEntities"))
+             : base(configuration.GetConnectionString("BreweryManagementEntities"))
         {
         }
     
@@ -25,9 +25,12 @@ namespace DataAccess
         {
             throw new UnintentionalCodeFirstException();
         }
-
+    
         public virtual DbSet<Beer> Beers { get; set; }
         public virtual DbSet<Brewer> Brewers { get; set; }
         public virtual DbSet<Brewery> Breweries { get; set; }
+        public virtual DbSet<Sale> Sales { get; set; }
+        public virtual DbSet<Stock> Stocks { get; set; }
+        public virtual DbSet<WholeSaler> WholeSalers { get; set; }
     }
 }

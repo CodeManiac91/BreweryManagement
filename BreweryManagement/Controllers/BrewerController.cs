@@ -11,11 +11,11 @@ namespace BreweryManagement.Controllers
     [ApiController]
     public class BrewerController : ControllerBase
     {
-        private readonly IBrewerService _brewerService;
+        private readonly IBrewerBussinessService _brewerBussinessService;
 
-        public BrewerController(IBrewerService brewerService)
+        public BrewerController(IBrewerBussinessService brewerBussinessService)
         {
-            _brewerService = brewerService;
+            _brewerBussinessService = brewerBussinessService;
         }
 
 
@@ -24,35 +24,35 @@ namespace BreweryManagement.Controllers
         [HttpGet]
         public IEnumerable<BrewerDto> Get()
         {
-            return _brewerService.GetAllBrewers();
+            return _brewerBussinessService.GetAllBrewers();
         }
 
         // GET api/<BrewerController>/5
-        [HttpGet("{id}")]
-        public BrewerDto Get(int id)
+        [HttpGet("{identificationNumber}")]
+        public BrewerDto Get(Int64 identificationNumber)
         {
-            return _brewerService.GetBrewerById(id);
+            return _brewerBussinessService.GetBrewerByKey(x => x.IndentificationNumber == identificationNumber);
         }
 
         // POST api/<BrewerController>
         [HttpPost]
         public void Post([FromBody] BrewerDto brewerDto)
         {
-            _brewerService.AddBrewer(brewerDto);
+            _brewerBussinessService.AddBrewer(brewerDto);
         }
 
         // PUT api/<BrewerController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] BrewerDto brewerDto)
+        [HttpPut]
+        public void Put([FromBody] BrewerDto brewerDto)
         {
-            _brewerService.Update(id,brewerDto);
+            _brewerBussinessService.Update(brewerDto);
         }
 
         // DELETE api/<BrewerController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{identificationNumber}")]
+        public void Delete(Int64 identificationNumber)
         {
-            _brewerService.Delete(id);
+            _brewerBussinessService.SoftDelete(identificationNumber);
         }
     }
 }

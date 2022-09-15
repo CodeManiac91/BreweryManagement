@@ -6,7 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IBeerService,BeerService>();
 builder.Services.AddScoped<IBrewerService,BrewerService>();
+builder.Services.AddScoped<IBreweryService, BreweryService>();
+builder.Services.AddScoped<IAuditService, AuditService>();
+
+builder.Services.AddScoped<IBrewerBussinessService, BrewerBussinessService>();
+builder.Services.AddScoped<IBreweryBussinessService, BreweryBussinessService>();
+builder.Services.AddScoped<IBeerBussinessService, BeerBussinessService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -4,38 +4,77 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BreweryManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BreweryManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Beer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SourceId" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="AlcoholContent" Type="nvarchar" MaxLength="4" />
+          <Property Name="AlcoholContent" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="BreweryId" Type="int" Nullable="false" />
           <Property Name="Removed" Type="bit" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
-          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="ModifiedBy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Brewer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IndentificationNumber" Type="bigint" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Brewery">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SourceId" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="CreatedBy" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
-          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SalesOrderNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BeerId" Type="int" Nullable="false" />
+          <Property Name="WholeSalerId" Type="int" Nullable="false" />
+          <Property Name="Ammount" Type="int" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BeerId" Type="int" Nullable="false" />
+          <Property Name="Ammount" Type="int" Nullable="false" />
+          <Property Name="WholeSalerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WholeSaler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SourceId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Removed" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Beer_Brewer">
           <End Role="Brewer" Type="Self.Brewer" Multiplicity="1" />
@@ -86,7 +125,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Brewery_Brewer1">
-          <End Role="Brewer" Type="Self.Brewer" Multiplicity="0..1" />
+          <End Role="Brewer" Type="Self.Brewer" Multiplicity="1" />
           <End Role="Brewery" Type="Self.Brewery" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Brewer">
@@ -94,6 +133,54 @@
             </Principal>
             <Dependent Role="Brewery">
               <PropertyRef Name="ModifiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_Beer">
+          <End Role="Beer" Type="Self.Beer" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Beer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="BeerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sale_WholeSaler">
+          <End Role="WholeSaler" Type="Self.WholeSaler" Multiplicity="1" />
+          <End Role="Sale" Type="Self.Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WholeSaler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="WholeSalerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stock_Beer">
+          <End Role="Beer" Type="Self.Beer" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Beer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="BeerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stock_WholeSaler">
+          <End Role="WholeSaler" Type="Self.WholeSaler" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WholeSaler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="WholeSalerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -101,6 +188,9 @@
           <EntitySet Name="Beer" EntityType="Self.Beer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brewer" EntityType="Self.Brewer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brewery" EntityType="Self.Brewery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sale" EntityType="Self.Sale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WholeSaler" EntityType="Self.WholeSaler" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Beer_Brewer" Association="Self.FK_Beer_Brewer">
             <End Role="Brewer" EntitySet="Brewer" />
             <End Role="Beer" EntitySet="Beer" />
@@ -121,57 +211,152 @@
             <End Role="Brewer" EntitySet="Brewer" />
             <End Role="Brewery" EntitySet="Brewery" />
           </AssociationSet>
+          <AssociationSet Name="FK_Sale_Beer" Association="Self.FK_Sale_Beer">
+            <End Role="Beer" EntitySet="Beer" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_WholeSaler" Association="Self.FK_Sale_WholeSaler">
+            <End Role="WholeSaler" EntitySet="WholeSaler" />
+            <End Role="Sale" EntitySet="Sale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stock_Beer" Association="Self.FK_Stock_Beer">
+            <End Role="Beer" EntitySet="Beer" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stock_WholeSaler" Association="Self.FK_Stock_WholeSaler">
+            <End Role="WholeSaler" EntitySet="WholeSaler" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BreweryManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BreweryManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Beers" EntityType="BreweryManagementModel.Beer" />
+          <EntitySet Name="Brewers" EntityType="BreweryManagementModel.Brewer" />
+          <EntitySet Name="Breweries" EntityType="BreweryManagementModel.Brewery" />
+          <EntitySet Name="Sales" EntityType="BreweryManagementModel.Sale" />
+          <EntitySet Name="Stocks" EntityType="BreweryManagementModel.Stock" />
+          <AssociationSet Name="FK_Beer_Brewer" Association="BreweryManagementModel.FK_Beer_Brewer">
+            <End Role="Brewer" EntitySet="Brewers" />
+            <End Role="Beer" EntitySet="Beers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Beer_Brewer1" Association="BreweryManagementModel.FK_Beer_Brewer1">
+            <End Role="Brewer" EntitySet="Brewers" />
+            <End Role="Beer" EntitySet="Beers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Beer_Brewery" Association="BreweryManagementModel.FK_Beer_Brewery">
+            <End Role="Brewery" EntitySet="Breweries" />
+            <End Role="Beer" EntitySet="Beers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sale_Beer" Association="BreweryManagementModel.FK_Sale_Beer">
+            <End Role="Beer" EntitySet="Beers" />
+            <End Role="Sale" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stock_Beer" Association="BreweryManagementModel.FK_Stock_Beer">
+            <End Role="Beer" EntitySet="Beers" />
+            <End Role="Stock" EntitySet="Stocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Brewery_Brewer" Association="BreweryManagementModel.FK_Brewery_Brewer">
+            <End Role="Brewer" EntitySet="Brewers" />
+            <End Role="Brewery" EntitySet="Breweries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Brewery_Brewer1" Association="BreweryManagementModel.FK_Brewery_Brewer1">
+            <End Role="Brewer" EntitySet="Brewers" />
+            <End Role="Brewery" EntitySet="Breweries" />
+          </AssociationSet>
+          <EntitySet Name="WholeSalers" EntityType="BreweryManagementModel.WholeSaler" />
+          <AssociationSet Name="FK_Sale_WholeSaler" Association="BreweryManagementModel.FK_Sale_WholeSaler">
+            <End Role="WholeSaler" EntitySet="WholeSalers" />
+            <End Role="Sale" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stock_WholeSaler" Association="BreweryManagementModel.FK_Stock_WholeSaler">
+            <End Role="WholeSaler" EntitySet="WholeSalers" />
+            <End Role="Stock" EntitySet="Stocks" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Beer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AlcoholContent" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AlcoholContent" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="BreweryId" Type="Int32" Nullable="false" />
           <Property Name="Removed" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Brewer" Relationship="Self.FK_Beer_Brewer" FromRole="Beer" ToRole="Brewer" />
-          <NavigationProperty Name="Brewer1" Relationship="Self.FK_Beer_Brewer1" FromRole="Beer" ToRole="Brewer" />
-          <NavigationProperty Name="Brewery" Relationship="Self.FK_Beer_Brewery" FromRole="Beer" ToRole="Brewery" />
+          <NavigationProperty Name="Brewer" Relationship="BreweryManagementModel.FK_Beer_Brewer" FromRole="Beer" ToRole="Brewer" />
+          <NavigationProperty Name="Brewer1" Relationship="BreweryManagementModel.FK_Beer_Brewer1" FromRole="Beer" ToRole="Brewer" />
+          <NavigationProperty Name="Brewery" Relationship="BreweryManagementModel.FK_Beer_Brewery" FromRole="Beer" ToRole="Brewery" />
+          <NavigationProperty Name="Sales" Relationship="BreweryManagementModel.FK_Sale_Beer" FromRole="Beer" ToRole="Sale" />
+          <NavigationProperty Name="Stocks" Relationship="BreweryManagementModel.FK_Stock_Beer" FromRole="Beer" ToRole="Stock" />
         </EntityType>
         <EntityType Name="Brewer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Beers" Relationship="Self.FK_Beer_Brewer" FromRole="Brewer" ToRole="Beer" />
-          <NavigationProperty Name="Beers1" Relationship="Self.FK_Beer_Brewer1" FromRole="Brewer" ToRole="Beer" />
-          <NavigationProperty Name="Breweries" Relationship="Self.FK_Brewery_Brewer" FromRole="Brewer" ToRole="Brewery" />
-          <NavigationProperty Name="Breweries1" Relationship="Self.FK_Brewery_Brewer1" FromRole="Brewer" ToRole="Brewery" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IndentificationNumber" Type="Int64" Nullable="false" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Beers" Relationship="BreweryManagementModel.FK_Beer_Brewer" FromRole="Brewer" ToRole="Beer" />
+          <NavigationProperty Name="Beers1" Relationship="BreweryManagementModel.FK_Beer_Brewer1" FromRole="Brewer" ToRole="Beer" />
+          <NavigationProperty Name="Breweries" Relationship="BreweryManagementModel.FK_Brewery_Brewer" FromRole="Brewer" ToRole="Brewery" />
+          <NavigationProperty Name="Breweries1" Relationship="BreweryManagementModel.FK_Brewery_Brewer1" FromRole="Brewer" ToRole="Brewery" />
         </EntityType>
         <EntityType Name="Brewery">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ModifiedBy" Type="Int32" />
-          <NavigationProperty Name="Beers" Relationship="Self.FK_Beer_Brewery" FromRole="Brewery" ToRole="Beer" />
-          <NavigationProperty Name="Brewer" Relationship="Self.FK_Brewery_Brewer" FromRole="Brewery" ToRole="Brewer" />
-          <NavigationProperty Name="Brewer1" Relationship="Self.FK_Brewery_Brewer1" FromRole="Brewery" ToRole="Brewer" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Beers" Relationship="BreweryManagementModel.FK_Beer_Brewery" FromRole="Brewery" ToRole="Beer" />
+          <NavigationProperty Name="Brewer" Relationship="BreweryManagementModel.FK_Brewery_Brewer" FromRole="Brewery" ToRole="Brewer" />
+          <NavigationProperty Name="Brewer1" Relationship="BreweryManagementModel.FK_Brewery_Brewer1" FromRole="Brewery" ToRole="Brewer" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalesOrderNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BeerId" Type="Int32" Nullable="false" />
+          <Property Name="WholeSalerId" Type="Int32" Nullable="false" />
+          <Property Name="Ammount" Type="Int32" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Beer" Relationship="BreweryManagementModel.FK_Sale_Beer" FromRole="Sale" ToRole="Beer" />
+          <NavigationProperty Name="WholeSaler" Relationship="BreweryManagementModel.FK_Sale_WholeSaler" FromRole="Sale" ToRole="WholeSaler" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BeerId" Type="Int32" Nullable="false" />
+          <Property Name="Ammount" Type="Int32" Nullable="false" />
+          <Property Name="WholeSalerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Beer" Relationship="BreweryManagementModel.FK_Stock_Beer" FromRole="Stock" ToRole="Beer" />
+          <NavigationProperty Name="WholeSaler" Relationship="BreweryManagementModel.FK_Stock_WholeSaler" FromRole="Stock" ToRole="WholeSaler" />
         </EntityType>
         <Association Name="FK_Beer_Brewer">
-          <End Role="Brewer" Type="Self.Brewer" Multiplicity="1" />
-          <End Role="Beer" Type="Self.Beer" Multiplicity="*" />
+          <End Type="BreweryManagementModel.Brewer" Role="Brewer" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Beer" Role="Beer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Brewer">
               <PropertyRef Name="Id" />
@@ -182,8 +367,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Beer_Brewer1">
-          <End Role="Brewer" Type="Self.Brewer" Multiplicity="1" />
-          <End Role="Beer" Type="Self.Beer" Multiplicity="*" />
+          <End Type="BreweryManagementModel.Brewer" Role="Brewer" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Beer" Role="Beer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Brewer">
               <PropertyRef Name="Id" />
@@ -194,8 +379,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Beer_Brewery">
-          <End Role="Brewery" Type="Self.Brewery" Multiplicity="1" />
-          <End Role="Beer" Type="Self.Beer" Multiplicity="*" />
+          <End Type="BreweryManagementModel.Brewery" Role="Brewery" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Beer" Role="Beer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Brewery">
               <PropertyRef Name="Id" />
@@ -205,9 +390,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Sale_Beer">
+          <End Type="BreweryManagementModel.Beer" Role="Beer" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Sale" Role="Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Beer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="BeerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stock_Beer">
+          <End Type="BreweryManagementModel.Beer" Role="Beer" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Stock" Role="Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Beer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="BeerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Brewery_Brewer">
-          <End Role="Brewer" Type="Self.Brewer" Multiplicity="1" />
-          <End Role="Brewery" Type="Self.Brewery" Multiplicity="*" />
+          <End Type="BreweryManagementModel.Brewer" Role="Brewer" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Brewery" Role="Brewery" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Brewer">
               <PropertyRef Name="Id" />
@@ -218,8 +427,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Brewery_Brewer1">
-          <End Role="Brewer" Type="Self.Brewer" Multiplicity="0..1" />
-          <End Role="Brewery" Type="Self.Brewery" Multiplicity="*" />
+          <End Type="BreweryManagementModel.Brewer" Role="Brewer" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Brewery" Role="Brewery" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Brewer">
               <PropertyRef Name="Id" />
@@ -229,32 +438,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BreweryManagementEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Beers" EntityType="Self.Beer" />
-          <EntitySet Name="Brewers" EntityType="Self.Brewer" />
-          <EntitySet Name="Breweries" EntityType="Self.Brewery" />
-          <AssociationSet Name="FK_Beer_Brewer" Association="Self.FK_Beer_Brewer">
-            <End Role="Brewer" EntitySet="Brewers" />
-            <End Role="Beer" EntitySet="Beers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Beer_Brewer1" Association="Self.FK_Beer_Brewer1">
-            <End Role="Brewer" EntitySet="Brewers" />
-            <End Role="Beer" EntitySet="Beers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Beer_Brewery" Association="Self.FK_Beer_Brewery">
-            <End Role="Brewery" EntitySet="Breweries" />
-            <End Role="Beer" EntitySet="Beers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Brewery_Brewer" Association="Self.FK_Brewery_Brewer">
-            <End Role="Brewer" EntitySet="Brewers" />
-            <End Role="Brewery" EntitySet="Breweries" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Brewery_Brewer1" Association="Self.FK_Brewery_Brewer1">
-            <End Role="Brewer" EntitySet="Brewers" />
-            <End Role="Brewery" EntitySet="Breweries" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        <EntityType Name="WholeSaler">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SourceId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Removed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Sales" Relationship="BreweryManagementModel.FK_Sale_WholeSaler" FromRole="WholeSaler" ToRole="Sale" />
+          <NavigationProperty Name="Stocks" Relationship="BreweryManagementModel.FK_Stock_WholeSaler" FromRole="WholeSaler" ToRole="Stock" />
+        </EntityType>
+        <Association Name="FK_Sale_WholeSaler">
+          <End Type="BreweryManagementModel.WholeSaler" Role="WholeSaler" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Sale" Role="Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WholeSaler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="WholeSalerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stock_WholeSaler">
+          <End Type="BreweryManagementModel.WholeSaler" Role="WholeSaler" Multiplicity="1" />
+          <End Type="BreweryManagementModel.Stock" Role="Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WholeSaler">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="WholeSalerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -263,35 +482,77 @@
           <EntitySetMapping Name="Beers">
             <EntityTypeMapping TypeName="BreweryManagementModel.Beer">
               <MappingFragment StoreEntitySet="Beer">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AlcoholContent" ColumnName="AlcoholContent" />
-                <ScalarProperty Name="BreweryId" ColumnName="BreweryId" />
-                <ScalarProperty Name="Removed" ColumnName="Removed" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="BreweryId" ColumnName="BreweryId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="AlcoholContent" ColumnName="AlcoholContent" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Brewers">
             <EntityTypeMapping TypeName="BreweryManagementModel.Brewer">
               <MappingFragment StoreEntitySet="Brewer">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="IndentificationNumber" ColumnName="IndentificationNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Breweries">
             <EntityTypeMapping TypeName="BreweryManagementModel.Brewery">
               <MappingFragment StoreEntitySet="Brewery">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="BreweryManagementModel.Sale">
+              <MappingFragment StoreEntitySet="Sale">
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+                <ScalarProperty Name="WholeSalerId" ColumnName="WholeSalerId" />
+                <ScalarProperty Name="BeerId" ColumnName="BeerId" />
+                <ScalarProperty Name="SalesOrderNumber" ColumnName="SalesOrderNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks">
+            <EntityTypeMapping TypeName="BreweryManagementModel.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="WholeSalerId" ColumnName="WholeSalerId" />
+                <ScalarProperty Name="Ammount" ColumnName="Ammount" />
+                <ScalarProperty Name="BeerId" ColumnName="BeerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WholeSalers">
+            <EntityTypeMapping TypeName="BreweryManagementModel.WholeSaler">
+              <MappingFragment StoreEntitySet="WholeSaler">
+                <ScalarProperty Name="Removed" ColumnName="Removed" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -9,21 +9,22 @@ using System.Threading.Tasks;
 
 namespace Services.Mapper
 {
-    public class BrewerProfile : Profile
+    public class WholeSalerProfile : Profile
     {
-        public BrewerProfile() {
-            CreateMap<BrewerDto, Brewer>()
+        public WholeSalerProfile()
+        {
+            CreateMap<WholeSalerDto, WholeSaler>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.Name}")
                 )
-                .ForMember(dest => dest.IndentificationNumber, opt => opt.MapFrom(src => $"{src.IdentificationNumber}")
+                .ForMember(dest => dest.SourceId, opt => opt.MapFrom(src => $"{src.SourceId}")
                 )
                 .ForMember(dest => dest.Removed, opt => opt.MapFrom(src => src.Removed)
                 );
 
-            CreateMap<Brewer, BrewerDto>()
+            CreateMap<WholeSaler, WholeSalerDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.Name}")
                 )
-                .ForMember(dest => dest.IdentificationNumber, opt => opt.MapFrom(src => $"{src.IndentificationNumber}")
+                .ForMember(dest => dest.SourceId, opt => opt.MapFrom(src => $"{src.SourceId}")
                 )
                 .ForMember(dest => dest.Removed, opt => opt.MapFrom(src => src.Removed)
                 );

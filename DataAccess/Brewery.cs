@@ -21,11 +21,13 @@ namespace DataAccess
         }
     
         public int Id { get; set; }
+        public string SourceId { get; set; }
         public string Name { get; set; }
+        public bool Removed { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime ModifiedDate { get; set; }
-        public Nullable<int> ModifiedBy { get; set; }
+        public int ModifiedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Beer> Beers { get; set; }

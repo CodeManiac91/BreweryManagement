@@ -10,7 +10,12 @@ namespace DataTransferObjects
 {
     public class BrewerDto
     {
-        [Required]
+        [Required(ErrorMessage = "Brewer name is required")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Brewer indentification number is required")]
+        public Int64 IdentificationNumber { get; set; }
+
+        public bool Removed { get; set; }
     }
 }
