@@ -77,7 +77,7 @@
     <Compile Include="BrewerDto.cs" />
     <Compile Include="BreweryDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sale.cs" />
+    <Compile Include="SaleDto.cs" />
     <Compile Include="WholeSalerDto.cs" />
   </ItemGroup>
   <ItemGroup>

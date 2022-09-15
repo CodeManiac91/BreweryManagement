@@ -258,6 +258,7 @@
     <Compile Include="Implementation\BrewerService.cs" />
     <Compile Include="Implementation\BreweryBussinessService.cs" />
     <Compile Include="Implementation\BreweryService.cs" />
+    <Compile Include="Implementation\SaleBussinessService.cs" />
     <Compile Include="Implementation\SaleService.cs" />
     <Compile Include="Implementation\WholeSalerBussinessService.cs" />
     <Compile Include="Implementation\WholeSalerService.cs" />
