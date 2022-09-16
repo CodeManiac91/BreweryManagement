@@ -17,8 +17,6 @@ namespace BreweryManagement.Controllers
             _wholeSalerBussinessService = wholeSalerBussinessService;
         }
 
-
-
         // GET: api/<WholeSalerController>
         [HttpGet]
         public IEnumerable<WholeSalerDto> Get()
@@ -52,6 +50,12 @@ namespace BreweryManagement.Controllers
         public void Delete(string sourceId)
         {
             _wholeSalerBussinessService.SoftDelete(sourceId);
+        }
+
+        [HttpGet]
+        public QuoteResponseDto GetQuoteDetails(QuoteRequestDto quoteRequestDto) 
+        {
+            return _wholeSalerBussinessService.GetQuoteDetails(quoteRequestDto);
         }
     }
 }

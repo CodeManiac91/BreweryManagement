@@ -9,11 +9,17 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IBeerService,BeerService>();
 builder.Services.AddScoped<IBrewerService,BrewerService>();
 builder.Services.AddScoped<IBreweryService, BreweryService>();
+builder.Services.AddScoped<IWholeSalerService, WholeSalerService>();
+builder.Services.AddScoped<ISaleService, SaleService>();
+builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<IAuditService, AuditService>();
 
 builder.Services.AddScoped<IBrewerBussinessService, BrewerBussinessService>();
 builder.Services.AddScoped<IBreweryBussinessService, BreweryBussinessService>();
 builder.Services.AddScoped<IBeerBussinessService, BeerBussinessService>();
+builder.Services.AddScoped<IWholeSalerBussinessService, WholeSalerBussinessService>();
+builder.Services.AddScoped<ISaleBussinessService, SaleBussinessService>();
+builder.Services.AddScoped<IStockBussinessService, StockBussinessService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -18,7 +18,7 @@ namespace DataAccess
         public string SalesOrderNumber { get; set; }
         public int BeerId { get; set; }
         public int WholeSalerId { get; set; }
-        public int Ammount { get; set; }
+        public int Amount { get; set; }
         public decimal TotalPrice { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }

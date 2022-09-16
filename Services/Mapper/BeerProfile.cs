@@ -19,6 +19,8 @@ namespace Services.Mapper
                 .ForMember(dest => dest.SourceId, opt => opt.MapFrom(src => $"{src.SourceId}")
                 )
                 .ForMember(dest => dest.Removed, opt => opt.MapFrom(src => src.Removed)
+                )
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price)
                 );
 
             CreateMap<Beer, BeerDto>()
@@ -29,6 +31,8 @@ namespace Services.Mapper
                 .ForMember(dest => dest.Removed, opt => opt.MapFrom(src => src.Removed)
                 )
                 .ForMember(dest => dest.BrewerySourceId, opt => opt.MapFrom(src => src.Brewery.SourceId)
+                )
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price)
                 );
         }
     }

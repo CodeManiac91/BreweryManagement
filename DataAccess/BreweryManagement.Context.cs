@@ -20,7 +20,11 @@ namespace DataAccess
              : base(configuration.GetConnectionString("BreweryManagementEntities"))
         {
         }
-    
+
+        public BreweryManagementEntities()
+        {
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -29,8 +33,8 @@ namespace DataAccess
         public virtual DbSet<Beer> Beers { get; set; }
         public virtual DbSet<Brewer> Brewers { get; set; }
         public virtual DbSet<Brewery> Breweries { get; set; }
+        public virtual DbSet<WholeSaler> WholeSalers { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
         public virtual DbSet<Stock> Stocks { get; set; }
-        public virtual DbSet<WholeSaler> WholeSalers { get; set; }
     }
 }

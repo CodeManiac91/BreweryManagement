@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,6 +45,47 @@ namespace Services.Implementation
                 return null;
 
             return _mapper.Map<List<WholeSalerDto>>(result);
+        }
+
+        public QuoteResponseDto GetQuoteDetails(QuoteRequestDto quoteRequestDto)
+        {
+            var groupedBeers = quoteRequestDto.BeerList.GroupBy(x => x.SourceId).ToList();
+
+            if (groupedBeers.Any(x => x.Count() > 1))
+                throw new Exception($"There are beer(s) duplicated in beer list");
+
+            var wholeSalerEntity = _wholeSalerService.GetWholeSalerByKey(x => x.SourceId == quoteRequestDto.WholeSalerSourceId);
+
+            if (wholeSalerEntity == null)
+                throw new Exception($"WholeSalerEntity with SourceId: {quoteRequestDto.WholeSalerSourceId} was not found");
+
+            var quoteResponseDto = new QuoteResponseDto();
+
+            quoteResponseDto.WholeSalerName = wholeSalerEntity.Name;
+            quoteResponseDto.WholeSalerSourceId = wholeSalerEntity.SourceId;
+
+            foreach (var item in quoteRequestDto.BeerList)
+            {
+                var stockEntity = wholeSalerEntity.Stocks.Where(x => x.Beer.SourceId == item.SourceId).FirstOrDefault();
+                
+                if (stockEntity == null)
+                    throw new Exception($"Beer with SourceId: {item.SourceId} was not found in the stock");
+
+                if(stockEntity.Amount < item.Amount)
+                    throw new Exception($"Beer stock amount is lower than provided");
+
+                quoteResponseDto.TotalAmmountOfBeers += item.Amount;
+                quoteResponseDto.TotalPrice += stockEntity.Beer.Price * item.Amount;
+                quoteResponseDto.BeerList.Add(item);
+            }
+
+            if(quoteResponseDto.TotalAmmountOfBeers > 10)
+                quoteResponseDto.TotalPriceWithDiscount = quoteResponseDto.TotalPrice % 10;
+            if (quoteResponseDto.TotalAmmountOfBeers > 20)
+                quoteResponseDto.TotalPriceWithDiscount = quoteResponseDto.TotalPrice % 20;
+
+
+            return quoteResponseDto;
         }
 
         public WholeSalerDto GetWholeSalerById(int id)

@@ -16,7 +16,7 @@ namespace DataAccess
     {
         public int Id { get; set; }
         public int BeerId { get; set; }
-        public int Ammount { get; set; }
+        public int Amount { get; set; }
         public int WholeSalerId { get; set; }
     
         public virtual Beer Beer { get; set; }

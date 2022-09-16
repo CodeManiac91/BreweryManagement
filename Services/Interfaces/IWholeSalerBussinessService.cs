@@ -24,5 +24,7 @@ namespace Services.Interfaces
         WholeSalerDto GetWholeSalerByKey(Expression<Func<WholeSaler, bool>> filter = null);
 
         void SoftDelete(string sourceId);
+
+        QuoteResponseDto GetQuoteDetails(QuoteRequestDto quoteRequestDto);
     }
 }

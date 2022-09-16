@@ -25,5 +25,8 @@ namespace DataTransferObjects
         public Int64 BrewerIdentificationNumber { get; set; }
         public bool Removed { get; set; }
 
+        [Required]
+        public decimal Price { get; set; }
+
     }
 }

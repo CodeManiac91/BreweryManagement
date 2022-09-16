@@ -8,16 +8,16 @@
         <EntityTypeShape EntityType="BreweryManagementModel.Beer" Width="1.5" PointX="5.25" PointY="6.875" />
         <EntityTypeShape EntityType="BreweryManagementModel.Brewer" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="BreweryManagementModel.Brewery" Width="1.5" PointX="3" PointY="9.625" />
-        <EntityTypeShape EntityType="BreweryManagementModel.Sale" Width="1.5" PointX="10.5" PointY="7.25" />
-        <EntityTypeShape EntityType="BreweryManagementModel.Stock" Width="1.5" PointX="7.5" PointY="7.875" />
         <AssociationConnector Association="BreweryManagementModel.FK_Beer_Brewer" />
         <AssociationConnector Association="BreweryManagementModel.FK_Beer_Brewer1" />
         <AssociationConnector Association="BreweryManagementModel.FK_Beer_Brewery" />
-        <AssociationConnector Association="BreweryManagementModel.FK_Sale_Beer" />
-        <AssociationConnector Association="BreweryManagementModel.FK_Stock_Beer" />
         <AssociationConnector Association="BreweryManagementModel.FK_Brewery_Brewer" />
         <AssociationConnector Association="BreweryManagementModel.FK_Brewery_Brewer1" />
         <EntityTypeShape EntityType="BreweryManagementModel.WholeSaler" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="BreweryManagementModel.Sale" Width="1.5" PointX="7.5" PointY="4.25" />
+        <EntityTypeShape EntityType="BreweryManagementModel.Stock" Width="1.5" PointX="10.5" PointY="4.875" />
+        <AssociationConnector Association="BreweryManagementModel.FK_Sale_Beer" />
+        <AssociationConnector Association="BreweryManagementModel.FK_Stock_Beer" />
         <AssociationConnector Association="BreweryManagementModel.FK_Sale_WholeSaler" />
         <AssociationConnector Association="BreweryManagementModel.FK_Stock_WholeSaler" />
         </Diagram>
