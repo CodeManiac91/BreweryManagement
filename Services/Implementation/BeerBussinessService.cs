@@ -72,7 +72,7 @@ namespace Services.Implementation
             return _mapper.Map<BeerDto>(result);
         }
 
-        public BeerDto GetBreweryByKey(Expression<Func<Beer, bool>> filter = null)
+        public BeerDto GetBeerByKey(Expression<Func<Beer, bool>> filter = null)
         {
             var result = _beerService.GetBeerByKey(filter);
             if (result == null)

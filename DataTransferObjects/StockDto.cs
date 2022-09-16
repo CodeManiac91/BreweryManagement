@@ -9,13 +9,13 @@ namespace DataTransferObjects
 {
     public class StockDto
     {
-        [Required]
+        [Required(ErrorMessage ="Beer Source Id is required")]
         public string BeerSourceId { get; set; }
 
-        [Required]
-        public int Amount;
+        [Required(ErrorMessage = "Beer Amount is required")]
+        public int Amount { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="WholeSaler SourceId is required")]
         public string WholeSalerSourceId { get; set; }
     }
 }

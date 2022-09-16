@@ -21,7 +21,7 @@ namespace Services.Interfaces
 
         void Delete(int id);
 
-        BeerDto GetBreweryByKey(Expression<Func<Beer, bool>> filter = null);
+        BeerDto GetBeerByKey(Expression<Func<Beer, bool>> filter = null);
 
         void SoftDelete(string sourceId, Int64 identificationNumber);
     }

@@ -52,7 +52,7 @@ namespace Services.Implementation
             var groupedBeers = quoteRequestDto.BeerList.GroupBy(x => x.SourceId).ToList();
 
             if (groupedBeers.Any(x => x.Count() > 1))
-                throw new Exception($"There are beer(s) duplicated in beer list");
+                throw new Exception($"Beer(s) duplicated in beer list");
 
             var wholeSalerEntity = _wholeSalerService.GetWholeSalerByKey(x => x.SourceId == quoteRequestDto.WholeSalerSourceId);
 
@@ -63,6 +63,7 @@ namespace Services.Implementation
 
             quoteResponseDto.WholeSalerName = wholeSalerEntity.Name;
             quoteResponseDto.WholeSalerSourceId = wholeSalerEntity.SourceId;
+            var beerList = new List<BeerQuoteDto>();
 
             foreach (var item in quoteRequestDto.BeerList)
             {
@@ -76,13 +77,14 @@ namespace Services.Implementation
 
                 quoteResponseDto.TotalAmmountOfBeers += item.Amount;
                 quoteResponseDto.TotalPrice += stockEntity.Beer.Price * item.Amount;
-                quoteResponseDto.BeerList.Add(item);
+                beerList.Add(item);
             }
+            quoteResponseDto.BeerList = beerList;
 
             if(quoteResponseDto.TotalAmmountOfBeers > 10)
-                quoteResponseDto.TotalPriceWithDiscount = quoteResponseDto.TotalPrice % 10;
+                quoteResponseDto.TotalPriceWithDiscount = quoteResponseDto.TotalPrice * Convert.ToDecimal(0.1);
             if (quoteResponseDto.TotalAmmountOfBeers > 20)
-                quoteResponseDto.TotalPriceWithDiscount = quoteResponseDto.TotalPrice % 20;
+                quoteResponseDto.TotalPriceWithDiscount = quoteResponseDto.TotalPrice * Convert.ToDecimal(0.2);
 
 
             return quoteResponseDto;

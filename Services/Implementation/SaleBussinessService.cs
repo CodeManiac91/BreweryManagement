@@ -56,7 +56,7 @@ namespace Services.Implementation
             saleEntity.BeerId = beerEntity.Id;
             saleEntity.WholeSalerId = wholeSalerEntity.Id;
 
-            _beerService.AddBeer(beerEntity, brewerEntity.Id);
+            _saleService.AddSale(saleEntity, brewerEntity.Id);
         }
 
         public void Delete(int id)

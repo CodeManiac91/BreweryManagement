@@ -281,6 +281,7 @@
     <Compile Include="Mapper\BrewerProfile.cs" />
     <Compile Include="Mapper\BreweryProfile.cs" />
     <Compile Include="Mapper\SaleProfile.cs" />
+    <Compile Include="Mapper\StockProfile.cs" />
     <Compile Include="Mapper\WholeSalerProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

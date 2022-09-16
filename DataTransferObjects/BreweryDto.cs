@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace DataTransferObjects
         public string SourceId { get; set; }
         [Required(ErrorMessage = "Brewer identification number is required")]
         public Int64 BrewerIdentificationNumber { get; set; }
+
+        [DefaultValue(false)]
         public bool Removed { get; set; }
     }
 }

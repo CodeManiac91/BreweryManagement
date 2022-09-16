@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,7 @@ namespace DataTransferObjects
         [Required(ErrorMessage = "Brewer indentification number is required")]
         public Int64 IdentificationNumber { get; set; }
 
+        [DefaultValue(false)]
         public bool Removed { get; set; }
     }
 }

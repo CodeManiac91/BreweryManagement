@@ -52,7 +52,7 @@ namespace BreweryManagement.Controllers
             _wholeSalerBussinessService.SoftDelete(sourceId);
         }
 
-        [HttpGet]
+        [HttpPost("quote")]
         public QuoteResponseDto GetQuoteDetails(QuoteRequestDto quoteRequestDto) 
         {
             return _wholeSalerBussinessService.GetQuoteDetails(quoteRequestDto);

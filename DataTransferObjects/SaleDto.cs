@@ -9,22 +9,21 @@ namespace DataTransferObjects
 {
     public class SaleDto
     {
-        [Required]
+        [Required(ErrorMessage = "Sale Order Number is required")]
         public string SalesOrderNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Beer SourceId Number is required")]
         public string BeerSourceId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "WholeSaler source id is required")]
         public string WholeSalerSourceId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Amount is required")]
         public int Amount { get; set; }
 
-        [Required]
         public decimal TotalPrice { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Brewer Identification Number is required")]
         public Int64 BrewerIdentificationNumber { get; set; }
 
     }

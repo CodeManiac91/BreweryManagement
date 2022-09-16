@@ -28,7 +28,7 @@ namespace BreweryManagement.Controllers
         [HttpGet("{sourceId}")]
         public BeerDto Get(string sourceId)
         {
-            return _beerBussinessService.GetBreweryByKey(x => x.SourceId == sourceId);
+            return _beerBussinessService.GetBeerByKey(x => x.SourceId == sourceId);
         }
 
         // POST api/<BeerController>
@@ -51,5 +51,13 @@ namespace BreweryManagement.Controllers
         {
             _beerBussinessService.SoftDelete(sourceId, identificationNumber);
         }
+
+        [HttpGet("{brewerySourceId}")]
+        public BeerDto GetByBrewerySourceId(string brewerySourceId)
+        {
+            return _beerBussinessService.GetBeerByKey(x => x.Brewery.SourceId == brewerySourceId);
+        }
+
+
     }
 }
